@@ -264,4 +264,55 @@ exports.getHotPickProducts = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Error fetching hot pick products', error: err.message });
   }
+};exports.addReview = async (req, res) => {
+  const { productId } = req.params;
+  const { user, comment, rating } = req.body;
+
+  try {
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    const newReview = { user, comment, rating };
+    product.reviews.push(newReview);
+    await product.save();
+
+    res.status(201).json({ message: 'Review added successfully', reviews: product.reviews });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+
+
+// POST: Add review to a product
+exports.addReview = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const { user, comment, rating } = req.body;
+
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    const newReview = { user, comment, rating };
+    product.reviews.push(newReview);
+    await product.save();
+
+    res.status(201).json({ message: 'Review added', review: newReview });
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding review', error });
+  }
+};
+
+
+// GET: Get all reviews for a product
+exports.getReviews = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    res.json(product.reviews);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving reviews', error });
+  }
 };

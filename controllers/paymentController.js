@@ -18,7 +18,7 @@ exports.createPayment = async (req, res) => {
   }
 
   const options = {
-    amount: Math.round(amount * 100), // in paise
+    amount: Math.round(amount ), // in paise
     currency: 'INR',
     receipt: shortid.generate(),
     payment_capture: 1,

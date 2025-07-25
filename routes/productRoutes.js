@@ -16,4 +16,9 @@ router.get('/slug/:slug', controller.getProductBySlug);
 router.put('/slug/:slug', controller.updateProduct);  // <-- uses slug
 router.delete('/slug/:slug', controller.deleteProduct); // <-- uses slug
 
+router.post('/:productId/reviews', controller.addReview);   // Add a review
+router.get('/:productId/reviews', controller.getReviews);   // Get reviews
+
+
+
 module.exports = router;
